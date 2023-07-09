@@ -24,7 +24,7 @@ class _MyMapState extends State<MyMap> {
       stream: FirebaseFirestore.instance.collection('location').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (_added) {
-          mymap(snapshot);
+          myMap(snapshot);
         }
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
@@ -44,13 +44,14 @@ class _MyMapState extends State<MyMap> {
                     BitmapDescriptor.hueMagenta)),
           },
           initialCameraPosition: CameraPosition(
-              target: LatLng(
-                snapshot.data!.docs.singleWhere(
-                    (element) => element.id == widget.userId)['latitude'],
-                snapshot.data!.docs.singleWhere(
-                    (element) => element.id == widget.userId)['longitude'],
-              ),
-              zoom: 14.47),
+            target: LatLng(
+              snapshot.data!.docs.singleWhere(
+                  (element) => element.id == widget.userId)['latitude'],
+              snapshot.data!.docs.singleWhere(
+                  (element) => element.id == widget.userId)['longitude'],
+            ),
+            zoom: 14.47,
+          ),
           onMapCreated: (GoogleMapController controller) async {
             setState(() {
               _controller = controller;
@@ -62,15 +63,19 @@ class _MyMapState extends State<MyMap> {
     ));
   }
 
-  Future<void> mymap(AsyncSnapshot<QuerySnapshot> snapshot) async {
-    await _controller
-        .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-            target: LatLng(
-              snapshot.data!.docs.singleWhere(
-                  (element) => element.id == widget.userId)['latitude'],
-              snapshot.data!.docs.singleWhere(
-                  (element) => element.id == widget.userId)['longitude'],
-            ),
-            zoom: 14.47)));
+  Future<void> myMap(AsyncSnapshot<QuerySnapshot> snapshot) async {
+    await _controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            snapshot.data!.docs.singleWhere(
+                (element) => element.id == widget.userId)['latitude'],
+            snapshot.data!.docs.singleWhere(
+                (element) => element.id == widget.userId)['longitude'],
+          ),
+          zoom: 14.47,
+        ),
+      ),
+    );
   }
 }

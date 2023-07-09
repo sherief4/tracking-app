@@ -6,7 +6,7 @@
         android:label="tracking_app">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBmSuR6ZXW_AgRq2SXPkLdiQhm4--LF6qo" />
+            android:value="AIzaSyCMToNrGNSEcCt2Pm41xaJ7wLVbc58JhkA" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
