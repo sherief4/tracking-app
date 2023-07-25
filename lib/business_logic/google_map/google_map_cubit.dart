@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -117,7 +119,7 @@ class GoogleMapCubit extends Cubit<GoogleMapStates> {
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: latLng,
-          zoom: 18.0,
+          zoom: 12.0,
         ),
       ),
     );
@@ -144,7 +146,31 @@ class GoogleMapCubit extends Cubit<GoogleMapStates> {
       width: 8,
     );
     polyLines[id] = polyline;
+    calculatePolyLineLength(polylineCoordinates);
     emit(DrawPolyLineState());
+  }
+
+  double totalDistance = 0.0;
+
+  void calculatePolyLineLength(List<LatLng> polylineCoordinates) {
+    double polyLineLength = 0;
+    for (var i = 0; i < polylineCoordinates.length - 1; i++) {
+      polyLineLength += calculateDistance(
+        polylineCoordinates[i].latitude,
+        polylineCoordinates[i].longitude,
+        polylineCoordinates[i + 1].latitude,
+        polylineCoordinates[i + 1].longitude,
+      );
+    }
+    totalDistance = polyLineLength;
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        cos((lat2 - lat1) * p) / 2 +
+        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
   }
 
   Future<void> getPolyline({required LatLng destination}) async {

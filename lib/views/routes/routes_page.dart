@@ -26,6 +26,7 @@ class _RoutesPageState extends State<RoutesPage> {
   void initState() {
     _googleMapCubit = GoogleMapCubit.get(context);
     _googleMapCubit.markers.clear();
+    _googleMapCubit.totalDistance = 0.0;
     _googleMapCubit.getCurrentLocation();
     super.initState();
   }
@@ -59,6 +60,9 @@ class _RoutesPageState extends State<RoutesPage> {
             return BlocConsumer<GoogleMapCubit, GoogleMapStates>(
               listener: (context, state) {},
               builder: (context, state) {
+                if (_googleMapCubit.totalDistance == 0) {
+                  Navigator.of(context).pop();
+                }
                 return Stack(
                   children: [
                     GoogleMap(
@@ -72,15 +76,22 @@ class _RoutesPageState extends State<RoutesPage> {
                         _googleMapCubit.mapController = controller;
                         _googleMapCubit.getCurrentLocation();
                       },
-                      onTap: (latLng) {
-
-                      },
+                      onTap: (latLng) {},
                       polylines: Set<Polyline>.of(
                         _googleMapCubit.polyLines.values,
                       ),
                       myLocationButtonEnabled: false,
                     ),
                     const ZoomButtons(),
+                    Container(
+                      width: double.infinity,
+                      height: 50,
+                      color: Colors.white,
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Total Distance : ${_googleMapCubit.totalDistance.roundToDouble()} KM',
+                      ),
+                    ),
                   ],
                 );
               },

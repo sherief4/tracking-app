@@ -67,7 +67,6 @@ class _LiveLocationTrackerState extends State<LiveLocationTracker> {
                   itemCount: snapshot.data?.docs.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      color: Colors.red,
                       width: double.infinity,
                       padding: const EdgeInsets.all(
                         16,

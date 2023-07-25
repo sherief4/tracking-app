@@ -16,10 +16,13 @@ class DirectionModel {
 
   factory DirectionModel.fromJson(Map<String, dynamic> json) {
     final boundsData = LatLngBounds(
-        northeast: LatLng(json['bounds']['northeast']['lat'],
-            json['bounds']['northeast']['lng']),
-        southwest: LatLng(json['bounds']['southwest']['lat'],
-            json['bounds']['southwest']['lng']));
+      northeast: LatLng(json['bounds']['northeast']['lat'],
+          json['bounds']['northeast']['lng']),
+      southwest: LatLng(
+        json['bounds']['southwest']['lat'],
+        json['bounds']['southwest']['lng'],
+      ),
+    );
 
     late String distance;
     late String duration;
